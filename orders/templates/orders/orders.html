@@ -1,0 +1,39 @@
+{% extends 'products/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<!-- Page Content -->
+<section>
+    <div class="container pt-5">
+        <div class="text-center mt-5">
+            <h1>Заказы</h1>
+            <div class="orders mt-5">
+                <table class="table">
+                    <thead>
+                    <tr class="table-light">
+                        <th scope="col">#</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col">Создан</th>
+                        <th scope="col">Итого</th>
+                        <th scope="col">Действие</th>
+                    </tr>
+                    </thead>
+                    {% for order in object_list  %}
+                    <tr class="{% if order.status == 0 %} table-warning {% elif order.status == 1 %} table-primary {% elif order.status == 2 %} table-info {% else %} table-success {% endif %}">
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{ order.get_status_display }}</td>
+                        <td>{{ order.created }}</td>
+                        <td>{{order.basket_history|get_total_sum|to_float_td}}</td>
+                        <td>
+                            <a href="{% url 'orders:order_detail' order.id %}">просмотреть</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <h3>Список заказов пуст</h3>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

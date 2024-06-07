@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+   learninglog:
+       build:
+         context: ../
+         dockerfile: Docker/Dockerfile
+       ports:
+           - "80:8000"
